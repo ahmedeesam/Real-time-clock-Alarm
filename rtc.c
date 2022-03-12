@@ -57,26 +57,33 @@ void RTC_RECIEVE(char *s ,char *m ,char *h,char *d,char *mo,char *y)
 	I2C_STOP();
 }
 
-	char hourmode (char h ,char d)
+	char hourmode (char h ,char *d)
 	{
-		char hoursh = 0 , hoursl = 0 ,hourt = 0;
+		char hoursh = 0 , hoursl = 0 ,hourt = 0, dd;
 		
 		hoursh = h & 0xF0;
 		hoursl = h & 0x0F;
-		
-		if (hoursh == 0x10 && d == 0)
+		if(strcmp(d,"am") == 0)
+		{
+			dd = 0;
+		}
+		else if(strcmp(d,"pm") == 0)
+		{
+			dd = 1;
+		}
+		if (hoursh == 0x10 && dd == 0)
 		{
 			hourt = 0b01010000 | hoursl;
 		}
-		else if (hoursh == 0x10 && d == 1)
+		else if (hoursh == 0x10 && dd == 1)
 		{
 			hourt = 0b01110000 | hoursl;
 		}
-		else if (hoursh == 0x00 && d == 0)
+		else if (hoursh == 0x00 && dd == 0)
 		{
 			hourt = 0b01000000 | hoursl;
 		}
-		else if (hoursh == 0x00 && d == 1)
+		else if (hoursh == 0x00 && dd == 1)
 		{
 			hourt = 0b01100000 | hoursl;
 		}

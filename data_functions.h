@@ -8,8 +8,10 @@
 
 #ifndef DATA_FUNCTIONS_H_
 #define DATA_FUNCTIONS_H_
+#include "uart.h"
 
 char receive_ASCII_to_BCD();
+void receive_daily(char *h);
 unsigned char MSB(unsigned char x);
 unsigned char LSB(unsigned char x);
 

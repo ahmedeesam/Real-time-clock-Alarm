@@ -33,6 +33,16 @@ char receive_ASCII_to_BCD()
 	return received1;
 }
 
+void receive_daily(char *h)
+{
+	for (unsigned char i = 0;i <= 1;i++)
+	{
+		h[i] = uart_recieve_ch();
+	}
+	//serial_debug(h);
+	//serial_debug("\n");
+}
+
 /*void BCD_to_ascii_display(char a)
 {
 	char b ,c;
