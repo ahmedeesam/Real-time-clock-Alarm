@@ -28,28 +28,29 @@ ISR (USART_RX_vect)
 	
 	uart_recieve_string(state);
 	//serial_debug(state);
-	if (strcmp(state,"time") == 0)
+	if (strcmp(state,"start") == 0)
 	{
 		serial_debug("\nenter the Start Time:\n");
 		record_alarm(&minutes_Sala ,&hours ,daily);
 		hours_alarm(daily ,&hours ,&H_Salarm);      //for calculating the BCD value to compare with the receiver from RTC
+
+		start_tim1_normal();
+	}
+	else if (strcmp(state,"stop") == 0)
+	{
 		serial_debug("\nenter the End Time:\n");
 		record_alarm(&minutes_Eala ,&hours ,daily);
-		hours_alarm(daily ,&hours ,&H_Ealarm);      //for calculating the BCD value to compare with the receiver from RTC	
+		hours_alarm(daily ,&hours ,&H_Ealarm);      //for calculating the BCD value to compare with the receiver from RTC
 		
 		start_tim1_normal();
 	}
-	else if (strcmp(state,"control") == 0)
+	else if (strcmp(state,"on") == 0)
 	{
-		uart_recieve_string(control_sig);
-		if (strcmp(control_sig,"on") == 0)
-		{
-			serial_debug("\non\n");
-		}
-		else if (strcmp(control_sig,"off") == 0)
-		{
-			serial_debug("\noff\n");
-		}
+		serial_debug("\non\n");
+	}
+	else if (strcmp(state,"off") == 0)
+	{
+		serial_debug("\noff\n");
 	}
 	
 	tim1_OVinterrupt_Enable();
