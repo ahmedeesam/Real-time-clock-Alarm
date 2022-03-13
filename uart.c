@@ -11,9 +11,19 @@
 void uart_init()
 {
 	UCSR0C = (1<<UCSZ00)|(1<<UCSZ01);
-	UCSR0B = (1<<TXEN0)|(1<<RXEN0);
+	UCSR0B |= ((1<<TXEN0)|(1<<RXEN0));
 	UBRR0H = (unsigned char)(51>>8);
 	UBRR0L = (unsigned char)51;
+}
+
+void uart_RX_INT_EN()
+{
+	UCSR0B |= (1<<RXCIE0);
+}
+
+void uart_RX_INT_DIS()
+{
+	UCSR0B &= ~(1<<RXCIE0);
 }
 
 void uart_send_ch(char ch)

@@ -14,6 +14,8 @@
 int v;
 
 void uart_init();
+void uart_RX_INT_EN();
+void uart_RX_INT_DIS();
 void uart_send_ch(char ch);
 char uart_recieve_ch();
 void serial_debug(char *a);

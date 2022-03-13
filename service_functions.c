@@ -21,12 +21,12 @@ void record_time(char *type ,char *seconds ,char *minutes ,char *hours)
 
 void Hour_type_check(char *type,char *hours)
 {
-	char daily = 0;
+	char daiily[2];
 	if (*type == 0x12)
 	{
-		serial_debug("press 00 for AM or 01 for PM:");
-		daily = receive_ASCII_to_BCD();
-		*hours = hourmode(*hours ,daily);
+		serial_debug("press am for AM or pm for PM:");
+		receive_daily(daiily);
+		*hours = hourmode(*hours ,daiily);
 	}
 }
 
@@ -68,23 +68,33 @@ void record_date(char *day ,char *month ,char *year)
 		*year   = receive_ASCII_to_BCD();
 }
 
-void record_alarm(char *minutes ,char *hours ,char *daily_ala)
+void record_alarm(char *minutes ,char *hours ,char *daily)
 {
-	serial_debug(" m:");
-	*minutes = receive_ASCII_to_BCD();
 	serial_debug(" h:");
 	*hours   = receive_ASCII_to_BCD();
-	serial_debug("\nP OR A\n");
-	*daily_ala = uart_recieve_ch();
+	serial_debug("\nm:");
+	*minutes = receive_ASCII_to_BCD();
+	serial_debug("\npm OR am\n");
+	receive_daily(daily);
 }
 
 void hours_alarm(char *daily ,char *hours,char *H_alarm)
 {
-if (*daily == 'P')
+	char dd = 0;
+		if(strcmp(daily,"am") == 0)
+		{
+			dd = 0;
+		}
+		else if(strcmp(daily,"pm") == 0)
+		{
+			//serial_debug("\nchecked\n");
+			dd = 1;
+		}
+if (dd == 1)
 {
 	*H_alarm |= (1<<5);
 }
-else if (*daily == 'A')
+else if (dd == 0)
 {
 	*H_alarm &= ~(1<<5);
 }
